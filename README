@@ -1,0 +1,75 @@
+Database Setup
+Prerequisites:
+MySQL Server (5.7 or newer)
+MySQL Workbench or command line client
+Importing Database Dump file 
+In database folder we have dump file which needs to be imported in MySQL which has transaction data for menu recommendation and for storing user orders. Open MySQL workbench and login into localhost with following credentials
+
+['MYSQL_HOST'] = 'localhost'
+['MYSQL_USER'] = 'xavier'
+['MYSQL_PASSWORD'] = 'Xavier@1234'
+['MYSQL_DB'] = 'resturant_db'
+Once you are logged in we need to import dump file 
+Execute the following SQL command to create the database:
+CREATE DATABASE restaurant_db;
+USE restaurant_db;
+Than at the bottom of the navigator go to administration and click on Data Import/Restore. Select the dump folder path and under default target schema select restaurant_db database.Than go to Import Progress which you will see on the center top of the screen and click on start import. Oncde import is done refresh schema and check if all the talbes are imported.
+
+Here we are done with database part
+
+if you are importing dump file in localhost with different username and password than 
+change in the code level in app.py
+app.config['MYSQL_USER'] = 'xavier'
+app.config['MYSQL_PASSWORD'] = 'Xavier@1234'
+
+Backend Setup
+Prerequisites:
+Visual Studio with C/C++ Development Workload
+##Environment Setup 
+Open backend folder in visual and open terminal for app.py
+(Run the below highlighted  commands in terminal)
+
+##First create python virtual environment
+python -m venv venv  
+##Then activate the enironment
+`venv\Scripts\activate`
+##Installing requirements.txt file
+pip install -r requirements.txt
+After installing all the dependencies , for Running the Application use the following commands
+For starting the application:
+python app.py
+
+(The above command will start the application at http: 5000 port)
+
+For making chatbot available on application it requires secure https link. While development which means after running python app.py in terminal the application is run at http link and not https. Where as dialogflow only supports https request. So, for this case we are using Ngrok that provides secure https link which we will be inserting in dialogflow fulfilment section.
+
+Setting up Ngrokk:
+Ngrok file is already in backend folder. After running python app.py. Open backend folder in your documents section and double click on ngrok file which will be open like a command prompt. Then in ngrok terminal run the below hightlighted command
+Run the following command to expose your local server:
+./ngrok http 5000
+Replace 5000 with the port number on which your local backend server is running.
+
+After running the command, Ngrok will provide you with a public HTTPS URL. Let's say your provided Ngrok URL is https://7b56-2a02-8084-21c1-f900-a08f-b735-f202-5086.ngrok-free.app.
+This URL can be used to access your local server globally.
+
+Updating Webhook URL in Dialogflow
+
+Open your web browser and go to Dialogflow Console. Use the following link
+https://dialogflow.cloud.google.com
+Sign in with following user ID and password.
+Gmail:- workplace1905@gmail.com
+Password:- Savil@19_05
+
+Once logged in, select your agent (e.g., "food-app-421807") from the list of agents. Navigate to the Fulfillment section from the left sidebar menu.
+Than we need to update  Webhook URL:
+In the Webhook URL section, replace the existing URL with your Ngrok URL.
+The webhook URL should look like https://7b56-2a02-8084-21c1-f900-a08f-b735-f202-5086.ngrok-free.app/webhook.
+please make sure you add /webhook after url endpoint. 
+Eg:   https://7b56-2a02-8084-21c1-f900-a08f-b735-f202-5086.ngrok-free.app/webhook.
+
+After updating the webhook URL, remember to save your changes by clicking on the "Save" button.
+
+
+
+
+
